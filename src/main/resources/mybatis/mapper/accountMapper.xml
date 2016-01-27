@@ -93,11 +93,33 @@
 			acc_account
 		where 
 		    isdeleted='N'
-		<if test=" pd.acc_name!= null and pd.acc_name!= '' ">	
+		<if test=" acc_name!= null and acc_name!= '' ">
+			and acc_name LIKE CONCAT(CONCAT('%', #{acc_name}),'%')
+		</if>
+		 <if test=" type_code!= null and type_code!= '' ">	
+		    and type_code=#{pd.type_code}
+		 </if> 
+		 order by acc_name
+	</select>
+	<!--根据条件查找(分页显示)-->
+	<select id="findAccountlistPage" parameterType="page" resultType="pd">
+		select 
+		    acc_no,
+			acc_name,	<!-- 账号名-->
+			acc_password,   <!-- 密码-->
+			email,   <!-- 邮箱-->
+			head_img, <!-- 头像-->
+			type_code <!-- 账号类型-->
+		from 
+			acc_account
+		where 
+		    isdeleted='N'
+		<if test=" pd.acc_name!= null and pd.acc_name!= '' ">
 			and acc_name LIKE CONCAT(CONCAT('%', #{pd.acc_name}),'%')
 		</if>
 		 <if test=" pd.type_code!= null and pd.type_code!= '' ">	
 		    and type_code=#{pd.type_code}
 		 </if> 
+		 order by acc_name
 	</select>
 </mapper>

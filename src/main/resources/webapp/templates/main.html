@@ -1,5 +1,6 @@
 <%include("/common/head.html"){}%>
 <link rel="stylesheet" href="/css/admin/compiled/index.css" type="text/css" media="screen" />
+<script src="/js/main.js"></script>
 <body>
 
     <!-- navbar -->
@@ -109,7 +110,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="#" onclick=" $('#contenFrame').attr('src','/toPersonal_info');">个人信息</a></li>
                         <li><a href="#">账号设置</a></li>
-                        <li><a href="#">Billing</a></li>
+                        <li><a href="#" onclick="openchat()">即时通讯</a></li>
                         <li><a href="#">Export your data</a></li>
                         <li><a href="#">Send feedback</a></li>
                     </ul>
@@ -155,7 +156,7 @@
                     <i class="icon-chevron-down"></i>
                 </a>
                 <ul class="submenu">
-                    <li><a href="#" onclick="toindex('/index',this)">User list</a></li>
+                    <li><a href="#" onclick="toindex('/account-list',this)">用户列表</a></li>
                     <li><a href="#" onclick="toindex('/index',this)">New user form</a></li>
                     <li><a href="#" onclick="toindex('/index',this)">User profile</a></li>
                 </ul>
@@ -227,47 +228,5 @@
 	
 </body>
 <script>
-  function init_frame(){
-	  var hmain = document.getElementById("contenFrame");
-		var bheight = document.documentElement.clientHeight;
-		hmain .style.width = '100%';
-		hmain .style.height = (bheight  - 60) + 'px';
-  }
-  init_frame();
-  var old_element;
-  function toindex(url,element){
-	  var pointer="<div class=\"pointer\"><div class=\"arrow\"></div><div class=\"arrow_border\"></div></div>";
-	  $("#contenFrame").attr("src",url);
-	  if(!old_element){
-		 old_element=$(".active").get(0);
-	  }
-	  if(old_element&&old_element.parentNode.tagName=="LI"&&!$(old_element.parentNode.parentNode).hasClass("submenu")){
-		  $(old_element.parentNode).removeClass("active");
-		  $(".pointer").remove();
-	  }else if(old_element&&old_element.tagName=="LI"){
-		  $(old_element).removeClass("active");
-		  $(".pointer").remove();
-	  }else if(old_element&&old_element.parentNode.tagName=="LI"){
-		  $(old_element).removeClass("active");
-		  $(old_element.parentNode.parentNode).removeClass("active");
-		  $(".pointer").remove();
-	  }
-	 
-	  if(element.parentNode.tagName=="LI"&&!$(element.parentNode.parentNode).hasClass("submenu")){
-		  $(element.parentNode).attr("class","active");
-		  $(element).before(pointer);
-	  }else if(element.parentNode.tagName=="LI"){
-		  $(element).addClass("active");
-		  if(element.parentNode.parentNode.tagName=="UL"){
-		  	$(element.parentNode.parentNode).addClass("active");
-		  	$(element.parentNode.parentNode).before(pointer);
-		  }
-	  }
-	  old_element=element;
-  }
-  
- //提示信息 
-  function commonTip(msg){
-	  layer.msg(msg);
-  }
+init_frame();
 </script>

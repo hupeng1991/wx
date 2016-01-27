@@ -38,7 +38,7 @@ public class StartFilter extends BaseController implements Filter{
 	 */
 	public void startWebsocketInstantMsg(){
 		WebSocketImpl.DEBUG = false;
-		int port = 8897; //端口
+		int port = 8090; //端口
 		ChatServer s;
 		try {
 			s = new ChatServer(port);

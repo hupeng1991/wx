@@ -47,5 +47,12 @@ public interface IAccountService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<PageData> findAccountByCondition(Page page) throws Exception;
+	public List<PageData> findAccountByCondition(PageData pd) throws Exception;
+	/***
+	 * 查询账号列表
+	 * @param page
+	 * @return
+	 * @throws Exception
+	 */
+	public List<PageData> findAccountlistPage(Page page) throws Exception;
 }

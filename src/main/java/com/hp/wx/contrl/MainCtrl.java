@@ -50,4 +50,16 @@ public class MainCtrl extends BaseController{
 		
 		return echostr;
 	}
+
+	/**
+	 * 打开即时通讯窗口
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/tochat")
+	public ModelAndView tochat()throws Exception{
+		ModelAndView mv=new ModelAndView();
+		mv.setViewName("/chat.html");
+		return mv;
+	}
 }

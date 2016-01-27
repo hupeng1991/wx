@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.hp.wx.entity.Account;
+import com.hp.wx.entity.Page;
 import com.hp.wx.exception.WXServiceException;
 import com.hp.wx.serviceinterface.IAccountService;
 import com.hp.wx.state.AccountType;
@@ -163,9 +164,11 @@ public class AccountCtrl extends BaseController{
 			pd.put("head_img", FileUpload.fileUp(file, filePath, UuidUtil.get32UUID()));
 			pd.put("isuncheck_flag", "Y");
 			accountService.updateAccount(pd);
+			//更新会话的账号
 			Account account=getAccount();
 			account.setHead_img(pd.getString("head_img"));
 			getRequest().getSession().setAttribute(Const.SESSION_USER, account);
+			//删除原来的头像文件
 			if(!Tools.isEmpty(preimg)&&!Const.DEFAULT_HEAD.equals(preimg)){
 				File refile=new File(filePath+preimg);
 				if(refile.exists()){
@@ -181,5 +184,22 @@ public class AccountCtrl extends BaseController{
 			logger.error(e.toString(),e);
 		}
 		return rtnpd;
+	}
+	
+	/***
+	 * 获取账户列表
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping("/account-list")
+	public ModelAndView findAccountList(Page page)throws Exception{
+		ModelAndView mv=new ModelAndView();
+		PageData pd=this.getPageData();
+		pd.put("type_code", AccountType.GUEST.getType_code());
+		page.setPd(pd);
+		mv.addObject("accountlist", accountService.findAccountlistPage(page));
+		mv.addObject("basePath", PathUtil.PathAddress()+"images/account_header/");
+		mv.setViewName("/account/account-list.html");
+		return mv;
 	}
 }

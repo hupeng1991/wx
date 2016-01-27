@@ -1,0 +1,107 @@
+<%include("/common/head.html"){}%>
+ <link rel="stylesheet" href="/css/admin/compiled/user-list.css" type="text/css" media="screen" />
+<body>
+   
+	<!-- main container -->
+    <div class="content">
+        <div class="container-fluid">
+            <div id="pad-wrapper" class="users-list">
+                <div class="row-fluid header">
+                    <h3>Users</h3>
+                    <div class="span10 pull-right">
+                        <input type="text" class="span5 search" placeholder="账号名" />
+                    
+                        <div class="ui-dropdown">
+                            <div class="head" data-toggle="tooltip" title="筛选!">
+                                                                                                   筛选用户
+                                <i class="arrow-down"></i>
+                            </div>  
+                            <div class="dialog">
+                                <div class="pointer">
+                                    <div class="arrow"></div>
+                                    <div class="arrow_border"></div>
+                                </div>
+                                <div class="body">
+                                    <p class="title">
+                                                                                                                 筛选条件:
+                                    </p>
+                                    <div class="form">
+                                        <select>
+                                            <option />账号名
+                                            <option />邮箱
+                                            
+                                        </select>
+                                        <select>
+                                            <option />是
+                                            <option />不是
+                                            <option />开头
+                                            <option />包含
+                                        </select>
+                                        <input type="text" />
+                                        <a class="btn-flat small">筛选</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a href="new-user.html" class="btn-flat success pull-right">
+                            <span>&#43;</span>
+                                                                                      添  加
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Users table -->
+                <form action="">
+                <div class="row-fluid table">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th class="span4 sortable">
+                                                                                                   用户名
+                                </th>
+                                <th class="span3 sortable">
+                                    <span class="line"></span>Signed up
+                                </th>
+                                <th class="span2 sortable">
+                                    <span class="line"></span>Total spent
+                                </th>
+                                <th class="span3 sortable align-right">
+                                    <span class="line"></span>Email
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <!-- row -->
+                        <%for(account in accountlist){%>
+                        <tr>
+                            <td>
+                                <img src="${basePath+account.head_img}" class="img-circle avatar hidden-phone" />
+                                <a href="user-profile.html" class="name">${account.acc_name}</a>
+                                
+                            </td>
+                            <td>
+                                Mar 13, 2012
+                            </td>
+                            <td>
+                                $ 4,500.00
+                            </td>
+                            <td class="align-right">
+                                <a href="#">${account.email}</a>
+                            </td>
+                        </tr>
+                        <%}%>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination pull-right">
+                   ${page.pageStr}
+                </div>
+                </form>
+                <!-- end users table -->
+            </div>
+        </div>
+    </div>
+    <!-- end main container -->
+</body>
+</html>

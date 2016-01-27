@@ -1,9 +1,13 @@
 <%include("/common/head.html"){}%>
-<div class="alert alert-info">
-    <i class="icon-warning-sign"></i>
-   <font color="red">${exception_code}</font>
+<div class="content">
+
+<div class="alert alert-error">
+    <i class="icon-remove-sign"></i>
+     ${exception_code}
 </div>
 <div class="span6 field-box actions">
-    <input type="button" value="返回"  onclick="history.go(-1)" class="btn-glow primary">
-    <span>查看详细错误信息</span>
+    <input type="button" value="返  回"  onclick="history.go(-1)" class="btn-glow primary">
+    <span><a href="#">查看详细错误信息</a></span>
+    <div class="popup">${error_info}</div>
+</div>
 </div>

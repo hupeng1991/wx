@@ -8,6 +8,8 @@ import org.java_websocket.WebSocket;
 import org.java_websocket.framing.Framedata;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hp.wx.until.Tools;
@@ -20,12 +22,16 @@ import com.hp.wx.until.Tools;
  */
 public class ChatServer extends WebSocketServer{
 
+	Logger logger=LoggerFactory.getLogger(ChatServer.class);
+	
 	public ChatServer(int port) throws UnknownHostException {
 		super(new InetSocketAddress(port));
+		logger.info("即时通讯服务已启动...");
 	}
 
 	public ChatServer(InetSocketAddress address) {
 		super(address);
+		logger.info("即时通讯服务已启动...");
 	}
 
 	/**
@@ -89,6 +95,7 @@ public class ChatServer extends WebSocketServer{
 		ex.printStackTrace();
 		if( conn != null ) {
 			//some errors like port binding failed may not be assignable to a specific websocket
+			logger.error("连接异常...",ex.toString());
 		}
 	}
 

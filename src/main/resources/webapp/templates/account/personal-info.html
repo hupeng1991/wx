@@ -12,7 +12,7 @@
                         <img src="${basePath+account.head_img}" id="img" class="avatar img-circle" />
                         <p>更改我的个人头像</p>
                         <input type="file" id="head_img" name="head_img" style="display:none;"/>
-                        <input type="button" class="btn-glow update_head" value="更  换" />
+                        <input type="button" class="btn-glow primary update_head" value="更  换" />
                     </div>
                 </div>
                 </form>
@@ -46,7 +46,7 @@
                             <input class="span5 inline-input" type="password" disabled="disabled" id="repassword" value="123456" />
                         </div>
                         <div class="span6 field-box actions">
-                            <input type="button" class="btn-glow primary" value="保  存" />
+                            <input type="button" class="btn-glow primary save" value="保  存" />
                         </div>
                     </form>
                 </div>
@@ -75,7 +75,7 @@
 	  });
 	  
 	  //更改信息
-	  $(".primary").on("click",function(){
+	  $(".save").on("click",function(){
 		     var acc_name = $("[name='acc_name']").val();
 	         var acc_password = $("#password").val();
 	         var acc_repassword = $("#repassword").val();
