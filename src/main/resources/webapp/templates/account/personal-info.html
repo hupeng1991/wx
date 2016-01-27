@@ -1,0 +1,157 @@
+<%include("/common/head.html"){}%>
+ <link rel="stylesheet" href="/css/admin/compiled/personal-info.css" type="text/css" media="screen" />
+ <script src="/js/ajaxfileupload.js"></script>
+<body>
+	<!-- main container .wide-content is used for this layout without sidebar :)  -->
+   <div class="content">
+            <div class="settings-wrapper" id="pad-wrapper">
+                <!-- avatar column -->
+                <form id="form1">
+                <div class="span3 avatar-box">
+                    <div class="personal-image">
+                        <img src="${basePath+account.head_img}" id="img" class="avatar img-circle" />
+                        <p>更改我的个人头像</p>
+                        <input type="file" id="head_img" name="head_img" style="display:none;"/>
+                        <input type="button" class="btn-glow update_head" value="更  换" />
+                    </div>
+                </div>
+                </form>
+                <!-- edit form column -->
+                
+                <div class="span7 personal-info">
+                    <div class="alert alert-info">
+                        <i class="icon-lightbulb"></i>
+                                                                                        修改个人信息后需要重新登录,更新头像除外..
+                    </div>
+                    <h5 class="personal-title">我的账号</h5>
+                    <form id="form2">
+                        <div class="field-box">
+                            <label>账  号:</label>
+                            <input class="span5 inline-input" name="acc_name" type="text" value="${account.acc_name}" />
+                        </div>
+                        <div class="field-box">
+                            <label>Email:</label>
+                            <input class="span5 inline-input" name="email" type="text" value="${account.email}" />
+                        </div>
+                        <div class="field-box">
+                            <label>修改密码:</label>
+                            <input class="span5" type="checkbox"  name="isupdatepassword"/>
+                        </div>
+                        <div class="field-box">
+                            <label>密  码:</label>
+                            <input class="span5 inline-input" type="password" disabled="disabled" id="password" value="123456" />
+                        </div>
+                        <div class="field-box">
+                            <label>确认密码:</label>
+                            <input class="span5 inline-input" type="password" disabled="disabled" id="repassword" value="123456" />
+                        </div>
+                        <div class="span6 field-box actions">
+                            <input type="button" class="btn-glow primary" value="保  存" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+         </div>
+    <!-- end main container -->
+</body>
+<script>
+  $(function(){
+	  //$("[name='isupdatepassword']").change();
+	  //是否修改密码
+	  $("[name='isupdatepassword']").on("change",function(){
+		  if($(this).attr('checked')){
+			  $('#password').attr('disabled','disabled');
+			  $('#repassword').attr('disabled','disabled');
+			  $('#password').val("123456");
+			  $('#repassword').val("123456");
+			  $(this).removeAttr("checked");
+		  }else{
+			  $('#password').removeAttr('disabled');
+			  $('#repassword').removeAttr('disabled');
+			  $('#password').val("");
+			  $('#repassword').val("");
+			  $(this).attr("checked",true);
+		  }
+	  });
+	  
+	  //更改信息
+	  $(".primary").on("click",function(){
+		     var acc_name = $("[name='acc_name']").val();
+	         var acc_password = $("#password").val();
+	         var acc_repassword = $("#repassword").val();
+	         var email=$("[name='email']").val();
+	         if(isEmpty(acc_name)){
+	        	 layer.msg("账号不能为空！");return false;
+	         }
+	         if($("[name='isupdatepassword']").attr("checked")){
+		         if(isEmpty(acc_password)){
+		        	 layer.msg("密码不能为空！");return false;
+		         }
+		         if(!isSame(acc_repassword,acc_password)){
+		        	 layer.msg("两次输入的密码不一致！");return false;
+		         }
+	         }
+	         if(!isEmail(email)){
+	        	 layer.msg("邮箱格式不正确！");return false;
+	         }
+		  $.ajax({
+			  url:"/savePernalInfo",
+			  dataType:"json",
+			  data:{"acc_no":"${account.acc_no}","acc_name":acc_name,"email":email,"acc_password":acc_password,"isupdatepassword":$("[name='isupdatepassword']").attr("checked")?"Y":"N"},
+			  type:"post",
+			  async:false,
+			  success:function(data){
+				  if(data.exception_code!=null&&$.trim(data.exception_code)!=""){
+					  layer.msg(data.exception_code);
+				  }else{
+					  window.parent.commonTip("保存成功！");
+					  location.reload();
+				  }
+			  },
+			  error:function(data){
+				  layer.msg("系统异常，请重试！");
+			  }
+		  });
+	  });
+	  
+	  //更换头像
+	  $(".update_head").on("click",function(){
+		  $("#head_img").click();
+	  });
+	  $("#head_img").on("change",function(){
+		  if( $("#head_img").val()!=""){
+			  var allowExtention = ".jpg,.bmp,.gif,.png"; //允许上传文件的后缀名document.getElementById("hfAllowPicSuffix").value;
+			  var extention = $("#head_img").val().substring($("#head_img").val().lastIndexOf(".") + 1).toLowerCase();
+			  if (allowExtention.indexOf(extention) < 0) {
+				  layer.msg("请选择对应图片格式作为头像");return false;
+			  }
+			  var acc_no='${account.acc_no}';
+			  $.ajaxFileUpload
+	            (
+	                {
+	                    url: '/saveHeadImg?acc_no='+acc_no+"&preimg=${account.head_img}", //用于文件上传的服务器端请求地址
+	                    type: 'post',
+	                    //data: {"acc_no":acc_no }, 
+	                    secureuri: false, //一般设置为false
+	                    fileElementId: 'head_img', //文件上传空间的id属性  <input type="file" id="file" name="file" />
+	                    dataType: 'json', //返回值类型 一般设置为json
+	                    success: function (data, status)  //服务器成功响应处理函数
+	                    {
+	                    	if(typeof (data.exception_code)!= 'undefined'){
+	                    		layer.msg(data.exception_code);
+	                    	}else{
+	                    		$("#img").attr("src", "${basePath}"+data.head_img);
+	                    		layer.msg("更新成功！");
+	                    	}
+	                    },
+	                    error: function (data, status, e)//服务器响应失败处理函数
+	                    {
+	                        layer.msg("更新异常："+e);
+	                    }
+	                }
+	            )
+		  }
+	  });
+  });
+</script>
+</html>

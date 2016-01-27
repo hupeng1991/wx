@@ -1,0 +1,62 @@
+<%include("/common/head.html"){}%>
+<link rel="stylesheet" href="/css/admin/compiled/signup.css" type="text/css" media="screen" />
+<body>
+    <div class="header">
+        <a href="index.html">
+            <img src="/images/admin/logo.png" class="logo" />
+        </a>
+    </div>
+    <div class="row-fluid login-wrapper">
+        <div class="box">
+            <div class="content-wrap">
+                <h6>注    册</h6>
+                <input class="span12" type="text" name="acc_name" placeholder="账号" />
+                <input class="span12" type="text" name="email" placeholder="邮箱地址" />
+                <input class="span12" type="password" name="acc_password" placeholder="密码" />
+                <input class="span12" type="password" name="acc_repassword" placeholder="确认密码" />
+                <div class="action">
+                    <a class="btn-glow primary signup" href="#">注  册</a>
+                </div>                
+            </div>
+        </div>
+
+        <div class="span4 already">
+            <p>已经注册?</p>
+            <a href="/tologin">登  录</a>
+        </div>
+    </div>
+</body>
+<script>
+$(function () {
+    //注册
+    $(".signup").on("click",function(){
+    	 var acc_name = $("[name='acc_name']").val();
+         var acc_password = $("[name='acc_password']").val();
+         var acc_repassword = $("[name='acc_repassword']").val();
+         var email=$("[name='email']").val();
+         if(isEmpty(acc_name)){
+        	 layer.msg("账号不能为空！");return false;
+         }
+         if(isEmpty(acc_password)){
+        	 layer.msg("密码不能为空！");return false;
+         }
+         if(!isSame(acc_repassword,acc_password)){
+        	 layer.msg("两次输入的密码不一致！");return false;
+         }
+         if(!isEmail(email)){
+        	 layer.msg("邮箱格式不正确！");return false;
+         }
+         $.post("/signup", {"acc_name": acc_name, "acc_password": acc_password,"email":email}, function(data){
+         	if(data.exception_code!=null&&data.exception_code!=""){
+         		layer.msg(data.exception_code);
+         	}else{
+         		window.location.href="/tologin";
+         	}
+         }, "json").fail(function(data) {
+             layer.msg("系统异常，请重试！"+data.error);
+         });
+    });
+    
+});
+</script>
+</html>

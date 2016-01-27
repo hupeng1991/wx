@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AccountMapper">
+	<!-- 新增账号-->
+	<insert id="saveAccount" parameterType="pd" useGeneratedKeys="true" keyProperty="acc_no">
+		insert into acc_account(
+			acc_name,	<!-- 账号名-->
+			acc_password,     <!-- 密码-->
+			email,   <!-- 邮箱-->
+			head_img, <!-- 头像-->
+			type_code, <!-- 账号类型-->
+			isdeleted
+		) values (
+			#{acc_name},	
+			#{acc_password},
+			#{email},
+			#{head_img},
+			#{type_code},
+			'N'
+		)
+	</insert>
+	
+	<!-- 删除-->
+	<delete id="deleteAccount" parameterType="pd">
+	update  acc_account
+	        isdeleted='Y'
+	where 
+			acc_no = #{acc_no}
+	</delete>
+	
+	<!-- 修改 -->
+	<update id="updateAccount" parameterType="pd">
+		update  acc_account
+			set 
+		<if test=" acc_name!= null and acc_name!= '' ">	
+				acc_name= #{acc_name},
+		</if>
+		<if test=" acc_password!= null and acc_password!= '' ">	
+			    acc_password = #{acc_password},
+		</if>
+		<if test=" email!= null and email!= '' ">	
+				email = #{email},
+		</if>
+		<if test=" head_img!= null and head_img!= '' ">
+				head_img = #{head_img},
+		</if>
+		        acc_no = #{acc_no}
+			where 
+				acc_no = #{acc_no}
+	</update>
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findAccountByNO" parameterType="pd" resultType="pd">
+		select 
+		    acc_no,
+			acc_name,	<!-- 账号名-->
+			acc_password,   <!-- 密码-->
+			email,   <!-- 邮箱-->
+			head_img, <!-- 头像-->
+			type_code <!-- 账号类型-->
+		from 
+			acc_account
+		where 
+			acc_no = #{acc_no}
+	</select>
+	<!--根据账户名查找-->
+	<select id="findAccountByName" parameterType="pd" resultType="pd">
+		select 
+		    acc_no,
+			acc_name,	<!-- 账号名-->
+			acc_password,   <!-- 密码-->
+			email,   <!-- 邮箱-->
+			head_img, <!-- 头像-->
+			type_code <!-- 账号类型-->
+		from 
+			acc_account
+		where 
+			acc_name = #{acc_name} or email=#{email}
+		and
+		   isdeleted='N'
+	</select>
+	
+	<!--根据条件查找-->
+	<select id="findAccountByCondition" parameterType="pd" resultType="pd">
+		select 
+		    acc_no,
+			acc_name,	<!-- 账号名-->
+			acc_password,   <!-- 密码-->
+			email,   <!-- 邮箱-->
+			head_img, <!-- 头像-->
+			type_code <!-- 账号类型-->
+		from 
+			acc_account
+		where 
+		    isdeleted='N'
+		<if test=" pd.acc_name!= null and pd.acc_name!= '' ">	
+			and acc_name LIKE CONCAT(CONCAT('%', #{pd.acc_name}),'%')
+		</if>
+		 <if test=" pd.type_code!= null and pd.type_code!= '' ">	
+		    and type_code=#{pd.type_code}
+		 </if> 
+	</select>
+</mapper>
