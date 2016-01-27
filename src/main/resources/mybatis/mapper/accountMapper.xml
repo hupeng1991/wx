@@ -97,7 +97,7 @@
 			and acc_name LIKE CONCAT(CONCAT('%', #{acc_name}),'%')
 		</if>
 		 <if test=" type_code!= null and type_code!= '' ">	
-		    and type_code=#{pd.type_code}
+		    and type_code=#{type_code}
 		 </if> 
 		 order by acc_name
 	</select>
