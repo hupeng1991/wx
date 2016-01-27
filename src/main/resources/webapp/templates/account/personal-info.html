@@ -36,6 +36,7 @@
                         <div class="field-box">
                             <label>修改密码:</label>
                             <input class="span5" type="checkbox"  name="isupdatepassword"/>
+                            
                         </div>
                         <div class="field-box">
                             <label>密  码:</label>
@@ -135,17 +136,22 @@
 	                    secureuri: false, //一般设置为false
 	                    fileElementId: 'head_img', //文件上传空间的id属性  <input type="file" id="file" name="file" />
 	                    dataType: 'json', //返回值类型 一般设置为json
-	                    success: function (data, status)  //服务器成功响应处理函数
+	                   
+	                    success:function (data, status)  //服务器成功响应处理函数
 	                    {
 	                    	if(typeof (data.exception_code)!= 'undefined'){
 	                    		layer.msg(data.exception_code);
 	                    	}else{
-	                    		$("#img").attr("src", "${basePath}"+data.head_img);
-	                    		layer.msg("更新成功！");
+	                    		if(typeof (data.head_img)!= 'undefined'){
+	                    			$("#img").attr("src", "${basePath}"+data.head_img);
+	                    			layer.msg("更新成功！");
+	                    		}else{
+	                    			layer.msg("更新失败！");
+	                    		}
 	                    	}
 	                    },
 	                    error: function (data, status, e)//服务器响应失败处理函数
-	                    {
+	                    {   
 	                        layer.msg("更新异常："+e);
 	                    }
 	                }

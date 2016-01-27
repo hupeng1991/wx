@@ -1,0 +1,78 @@
+<%include("/common/head.html"){}%>
+ <link rel="stylesheet" href="/css/admin/compiled/user-list.css" type="text/css" media="screen" />
+<body>
+   <form action="/remark-list">
+	<!-- main container -->
+    <div class="content">
+        <div class="container-fluid">
+            <div id="pad-wrapper" class="users-list">
+                <div class="row-fluid header">
+                    <h3>备忘录</h3>
+                    <div class="span10 pull-right">
+                        <input type="text" class="span5 search" placeholder="关键字" />
+                    
+                        <div class="ui-dropdown">
+                            <div class="head" data-toggle="tooltip" >
+                                                                                                   查询
+                                <i class="arrow-down"></i>
+                            </div>  
+						</div>
+                        <a href="new-user.html" class="btn-flat success pull-right">
+                            <span>&#43;</span>
+                                                                                      添  加
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Users table -->
+                <div class="row-fluid table">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                               <th class="span1 sortable">
+                                                                                                  序号
+                                </th>
+                                <th class="span4 sortable">
+                                                                                                   主题
+                                </th>
+                                <th class="span5 sortable">
+                                    <span class="line"></span>描述
+                                </th>
+                                <th class="span2 sortable">
+                                    <span class="line"></span>创建时间
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <!-- row -->
+                        <%var NO=0;for(remark in myremarklist){NO++;%>
+                        <tr>
+                            <td>
+                                ${NO}
+                            </td>
+                            <td>
+                                <img src="${basePath+account.head_img}" class="img-circle avatar hidden-phone" />
+                                <a href="user-profile.html" class="name">${remark.title}</a>
+                            </td>
+                            <td>
+                                ${remark.description}
+                            </td>
+                            <td>
+                               ${remark.create_time}
+                            </td>
+                        </tr>
+                        <%}%>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination pull-right">
+                   ${page.pageStr}
+                </div>
+                <!-- end users table -->
+            </div>
+        </div>
+    </div>
+    <!-- end main container -->
+  </form>
+</body>
+</html>

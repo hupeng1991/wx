@@ -33,6 +33,7 @@ public class MyRemarkCtrl extends BaseController {
 	public ModelAndView findMyRemarkList(Page page)throws Exception{
 		ModelAndView mv=new ModelAndView();
 		PageData pd=this.getPageData();
+		pd.put("acc_no", getAccount().getAcc_no());
 		page.setPd(pd);
 		List<PageData> list=myRemarkServiceImpl.findRemarkByCondition(page);
 		mv.addObject("myremarklist", list==null?new ArrayList<PageData>():list);

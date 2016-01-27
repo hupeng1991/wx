@@ -158,7 +158,7 @@ public class AccountCtrl extends BaseController{
 			@RequestParam(value="acc_no",required=false) String acc_no,@RequestParam(value="preimg") String preimg)throws Exception{
 		PageData rtnpd=new PageData();
 		try{
-			String filePath = PathUtil.getClassResources() + "images/account_header/";		//头像上传路径
+			String filePath = PathUtil.getClassResources() + "webapp/images/account_header/";		//头像上传路径
 			PageData pd=new PageData();
 			pd.put("acc_no", acc_no);
 			pd.put("head_img", FileUpload.fileUp(file, filePath, UuidUtil.get32UUID()));
