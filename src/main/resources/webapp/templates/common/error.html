@@ -7,7 +7,16 @@
 </div>
 <div class="span6 field-box actions">
     <input type="button" value="返  回"  onclick="history.go(-1)" class="btn-glow primary">
-    <span><a href="#">查看详细错误信息</a></span>
-    <div class="popup">${error_info}</div>
+    
+    <div class="ui-dropdown">
+        <div class="head" data-toggle="tooltip" >
+                                        查看详细错误信息
+            <i class="arrow-down"></i>
+        </div>  
+        <div class="dialog">
+           ${error_info}
+        </div>
+    </div>
 </div>
+
 </div>

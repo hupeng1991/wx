@@ -47,7 +47,7 @@ public class MyRemarkServiceImpl extends BaseServiceImpl implements IMyRemarkSer
 	 */
 	public PageData getMyRemarkByNo(PageData pd)throws Exception{
 		if(Tools.isEmpty(pd.getString("remark_no"))){
-			throw new WXServiceException("参数：remark_no不能为空！");
+			throw new WXServiceException("parameter：remark_no is not null！");
 		}
 		
 		return (PageData)daoSupport.findForObject("MyRemarkMapper.findRemarkByNO", pd);
@@ -60,7 +60,7 @@ public class MyRemarkServiceImpl extends BaseServiceImpl implements IMyRemarkSer
 	 */
 	public void updateMyRemark(PageData pd)throws Exception{
 		if(Tools.isEmpty(pd.getString("remark_no"))){
-			throw new WXServiceException("参数：remark_no不能为空！");
+			throw new WXServiceException("parameter：remark_no is not null！");
 		}
 		checkRemark(pd);
 		daoSupport.update("MyRemarkMapper.updateRemark", pd);
